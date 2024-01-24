@@ -1,1 +1,4 @@
-# w-aubrey-geary.github.io
+# Aerospace Engineering
+### Education
+Bachelor of Science
+### About Me
