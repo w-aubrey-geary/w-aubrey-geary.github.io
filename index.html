@@ -1,0 +1,92 @@
+<title>Version 3, Welcome!</title>
+<link rel="stylesheet" href="master.css">
+<link rel="shortcut icon" href="./assets/img/favicon_io/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div class="header">
+    <h1>William Aubrey Geary</h1>
+</div>
+
+<div class="navbar">
+    <button class="nav__button" data-for-tab="1">Home</button>
+    <button class="nav__button" data-for-tab="2">About Me</button>
+    <button class="nav__button" data-for-tab="3">Contact</button>
+</div>
+
+<div class="main">
+    <div class="nav__content" data-tab="1">
+
+        <div class="nav__image">
+            <img src="assets/img/prof_headshot.png" alt="Example Image">
+        </div>
+
+        <p>
+        My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
+        While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
+        electronics, and rocketry!
+        </p>
+        <p>
+        My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
+        While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
+        electronics, and rocketry!
+        </p>
+        <p>
+        My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
+        While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
+        electronics, and rocketry!
+        </p>
+        <p>
+        My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
+        While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
+        electronics, and rocketry!
+        </p>
+    </div>
+
+    <div class="nav__content" data-tab="2">
+        <h2>Tab #2</h2>
+        <p>
+            Below, you can find my hobbies, and in the 'Portfolio' tab you can find my largest projects and research topics. 
+        </p>
+    </div>
+
+    <div class="nav__content" data-tab="3">
+        <h2>Tab #3</h2>
+        <p>
+        To connect with me, or see what I'm up to, check out the links [] and connect with me on LinkedIn.
+        </p>
+    </div>
+</div>
+
+<script>
+
+function setupTabs() {
+    document.querySelectorAll(".nav__button").forEach(button => {
+    button.addEventListener("click", () => {
+        const sideBar = button.parentElement;
+        const tabsContainer = sideBar.parentElement;
+        const tabNumber = button.dataset.forTab;
+        const tabToActivate = tabsContainer.querySelector('.nav__content[data-tab="' + tabNumber + '"]');
+        console.log(tabToActivate)
+
+        sideBar.querySelectorAll(".nav__button").forEach(button => {
+        button.classList.remove("nav__button--active");
+        });
+
+        tabsContainer.querySelectorAll(".nav__content").forEach(tab => {
+        tab.classList.remove("nav__content--active");
+        });
+
+        button.classList.add("nav__button--active");
+        tabToActivate.classList.add("nav__content--active");
+    });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () =>{
+    setupTabs();
+
+    document.querySelectorAll(".navbar").forEach(tabsContainer => {
+    tabsContainer.querySelector(".navbar .nav__button").click();
+    });
+});
+</script>
