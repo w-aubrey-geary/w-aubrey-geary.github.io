@@ -13,6 +13,22 @@
     <![endif]-->
     {% include head-custom.html %}
   </head>
+
+  <div class="navbar">
+  <a href="#home">Home</a>
+  <a href="#news">News</a>
+  <div class="dropdown">
+    <button class="dropbtn">More
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Link 1</a>
+      <a href="#">Link 2</a>
+      <a href="#">Link 3</a>
+    </div>
+  </div>
+</div>
+  
   <body>
     <div class="wrapper">
       <header>
@@ -23,12 +39,7 @@
         {% endif %}
 
         <div class="tabs">
-  <div class="tabs__sidebar">
-    <button class="tabs__button" data-for-tab="1">About</button>
-    <button class="tabs__button" data-for-tab="2">Portfolio</button>
-    <button class="tabs__button" data-for-tab="3">Connect</button>
-    <button class="tabs__button" data-for-tab="4">This Project</button>    
-  </div>
+
 
         <p>{{ site.description | default: site.github.project_tagline }}</p>
 
