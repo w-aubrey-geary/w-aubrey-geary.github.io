@@ -22,6 +22,14 @@
           <img src="{{site.logo | relative_url}}" alt="Logo" />
         {% endif %}
 
+        <div class="tabs">
+  <div class="tabs__sidebar">
+    <button class="tabs__button" data-for-tab="1">About</button>
+    <button class="tabs__button" data-for-tab="2">Portfolio</button>
+    <button class="tabs__button" data-for-tab="3">Connect</button>
+    <button class="tabs__button" data-for-tab="4">This Project</button>    
+  </div>
+
         <p>{{ site.description | default: site.github.project_tagline }}</p>
 
         {% if site.show_downloads %}
