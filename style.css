@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad');
+
+/* || RESET */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+input, 
+button, 
+textarea {
+    font: inherit;
+}
+
+/* || VARIABLES */
+:root {
+    /* FONTS */
+    --FF: "Afacad";
+    --FF-HEADINGS: "Afacad";
+    --FS: clamp(1rem, 2.2vh, 1.5rem);
+
+    /* COLORS */
+    --COLOR: #000000;
+    --BORDER-COLOR: #2286aa2c;
+    --BODY-BGCOLOR: #ffffff;
+    --FONT-COLOR: #000000;
+    --HIGHLIGHT-COLOR: #000000;
+    --HOVER: #c42021;
+    --LINK-COLOR: #ffffff;
+    --LINK-ACTIVE: #2286aa;
+    --HEADER-BGCOLOR: #000000;
+    --HEADER-COLOR: #ffffff;
+    --NAV-COLOR: #ffffff;
+
+    /* BORDERS */
+    --BORDERS: 1px solid var(--BORDER-COLOR);
+
+    /* PADDING */
+    --PADDING-TB: 0.25em;
+    --PADDING-SIDE: 2.5%;
+    --MIN-PAGE: 150vh;
+
+    /* STANDARD MARGIN */
+    --MARGIN: clamp(1em, 2.5vh, 1.5em) 0;
+
+}
+
+/* || UTILITY CLASSES */
+.nowrap {
+    white-space: nowrap;
+}
+
+.center {
+    text-align: center;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: var(--FS);
+    font-family: var(--FF);
+    background-color: var(--BGCOLOR);
+}
+
+body {
+    background-color: var(--BODY-BGCOLOR);
+    color: var(--FONT-COLOR);
+    min-height: var(--MIN-PAGE);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-left: var(--BORDERS);
+    border-right: var(--BORDERS);
+    box-shadow: 0 0 5px var(--BORDER-COLOR);
+}
+
+h1, h2, h3 {
+    font-family: var(--FF-HEADINGS);
+    letter-spacing: 0.1em;
+    text-indent: 0;
+}
+
+h2, h3 {
+    text-justify: 0;
+    margin-bottom: 0;
+    color: var(--HIGHLIGHT-COLOR);
+}
+
+p {
+    line-height: 1.5;
+    text-align: justify;
+}
+
+a:any-link {
+    color: var(--LINK-ACTIVE);
+    text-decoration-line: none;
+}
+
+a:hover, a:focus-visible {
+    color: var(--HOVER);
+}
+
+a:active {
+    color: var(--LINK-ACTIVE);
+}
+
+/* || HEADER*/
+.navbar {
+    position: sticky;
+    top: 0;
+    background-color: var(--NAV-COLOR);
+    border-bottom: var(--BORDERS);
+    font-weight: bold;
+    box-shadow: 0 6px 5px -5px var(--BORDER-COLOR);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-evenly;
+    z-index: 1;
+}
+
+.header {
+    grid-column: 1 / 4;
+    background-color: var(--BGCOLOR);
+    color: var(--COLOR);
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    background-color: var(--HEADER-BGCOLOR);
+    color: var(--HEADER-COLOR);
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+}
+
+ /* BUTTONS */ 
+.nav__box {
+    background-color: var(--BGCOLOR);
+    color: var(--COLOR);
+    margin: auto;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.nav__box--active {
+    font-weight: bold;
+    box-shadow: 0 10px 10px -10px var(--LINK-ACTIVE);
+}
+
+.nav__box:hover {
+    font-weight: bold;
+    box-shadow: 0 5px 5px -5px var(--HOVER);
+}
+
+.wrapper {
+    display: none;
+}
+
+.wrapper > * {
+    padding: 10px;
+    flex: 1 100%;
+}
+
+.wrapper--active {
+    display: flex;
+    flex-flow: row wrap;
+    scroll-margin-top: 6.5rem;
+    margin: var(--MARGIN);
+    word-wrap: normal;
+}
+
+.main {
+    min-height: 100vh;
+    max-width: fit-content;
+}
+
+.side1 {
+    display: grid;
+    justify-content: center;
+}
+
+.side1 img{
+    text-align: justify;
+    min-width: 25vw;
+    max-width: 300px;
+    height: auto;
+}
+
+.img-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 100px 300px;
+    grid-gap: 10px;
+    grid-auto-flow: dense;
+
+    img {
+        max-width: 30%;
+    }
+
+}
+
+
+
+/* || FOOTER */
+.footer {
+    position: relative;
+    bottom: 0px;
+    background-color: var(--HEADER-BGCOLOR);
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+    text-align: center;
+}
+.footer a {
+    color: var(--HEADER-COLOR);
+}
+
+.footer:hover a {
+    color: var(--HOVER);
+}
+
+.footer:active a {
+    color: var(--LINK-ACTIVE);
+}
