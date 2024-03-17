@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Afacad');
 
-/* || RESET */
+
+/* RESET */
 *,
 *::after,
 *::before {
@@ -15,25 +16,23 @@ textarea {
     font: inherit;
 }
 
-/* || VARIABLES */
+
+/* VARIABLES */
 :root {
     /* FONTS */
     --FF: "Afacad";
     --FF-HEADINGS: "Afacad";
-    --FS: clamp(1rem, 2.2vh, 1.5rem);
+    --FS: clamp(1rem, 3.5vw, 1.5rem);
 
     /* COLORS */
     --COLOR: #000000;
     --BORDER-COLOR: #2286aa2c;
-    --BODY-BGCOLOR: #ffffff;
+    --BODY-BGCOLOR: #F3F5F7;
     --FONT-COLOR: #000000;
     --HIGHLIGHT-COLOR: #000000;
     --HOVER: #c42021;
-    --LINK-COLOR: #ffffff;
     --LINK-ACTIVE: #2286aa;
     --HEADER-BGCOLOR: #000000;
-    --HEADER-COLOR: #ffffff;
-    --NAV-COLOR: #ffffff;
 
     /* BORDERS */
     --BORDERS: 1px solid var(--BORDER-COLOR);
@@ -41,27 +40,17 @@ textarea {
     /* PADDING */
     --PADDING-TB: 0.25em;
     --PADDING-SIDE: 2.5%;
-    --MIN-PAGE: 150vh;
-
-    /* STANDARD MARGIN */
-    --MARGIN: clamp(1em, 2.5vh, 1.5em) 0;
-
+    --MIN-PAGE: 100vh;
 }
 
-/* || UTILITY CLASSES */
-.nowrap {
-    white-space: nowrap;
-}
 
-.center {
-    text-align: center;
-}
-
+/* UTILITY CLASSES */
 html {
     scroll-behavior: smooth;
     font-size: var(--FS);
     font-family: var(--FF);
     background-color: var(--BGCOLOR);
+    color: var(--FONT-COLOR);
 }
 
 body {
@@ -70,7 +59,7 @@ body {
     min-height: var(--MIN-PAGE);
     max-width: 1000px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: var(--PADDING-TB) var(--PADDING-SIDE);
     border-left: var(--BORDERS);
     border-right: var(--BORDERS);
     box-shadow: 0 0 5px var(--BORDER-COLOR);
@@ -83,9 +72,12 @@ h1, h2, h3 {
 }
 
 h2, h3 {
-    text-justify: 0;
     margin-bottom: 0;
-    color: var(--HIGHLIGHT-COLOR);
+    margin-top: var(--FS);
+}
+
+h3 {
+    margin-top: calc(var(--FS)/2);
 }
 
 p {
@@ -93,130 +85,105 @@ p {
     text-align: justify;
 }
 
-a:any-link {
+p a {
     color: var(--LINK-ACTIVE);
+}
+
+p a:active {
+    color: var(--HOVER);
+}
+
+a {
+    color: var(--COLOR);
     text-decoration-line: none;
 }
 
-a:hover, a:focus-visible {
-    color: var(--HOVER);
-}
 
 a:active {
     color: var(--LINK-ACTIVE);
 }
 
-/* || HEADER*/
-.navbar {
-    position: sticky;
-    top: 0;
-    background-color: var(--NAV-COLOR);
-    border-bottom: var(--BORDERS);
+
+/* Header*/
+.header {
+    display: block;
+    text-align: center;
     font-weight: bold;
-    box-shadow: 0 6px 5px -5px var(--BORDER-COLOR);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: space-evenly;
-    z-index: 1;
+    text-transform: uppercase;
 }
 
-.header {
-    grid-column: 1 / 4;
-    background-color: var(--BGCOLOR);
-    color: var(--COLOR);
-    display: grid;
-    justify-content: center;
-    text-align: center;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-    background-color: var(--HEADER-BGCOLOR);
-    color: var(--HEADER-COLOR);
-    padding: var(--PADDING-TB) var(--PADDING-SIDE);
-}
 
  /* BUTTONS */ 
-.nav__box {
-    background-color: var(--BGCOLOR);
-    color: var(--COLOR);
+header nav ul {
+    display:block;
+    margin: auto;
+    width: fit-content;
+}
+
+header nav ul li {
+    display: inline-block;
+    text-align: center;
+    list-style-type: none;
+    cursor: pointer;
     margin: auto;
     padding: 5px;
-    border: none;
-    cursor: pointer;
-    width: 100%;
 }
 
-.nav__box--active {
+.nav__box a {
+    padding:  5px 15px;
+}
+
+ /* || The two below only needed on desktop */
+.nav__box a:hover {
+    font-weight: bold;
+    box-shadow: 0 10px 10px -10px var(--HOVER);
+    color: var(--HOVER);
+}
+.nav__box a:active {
     font-weight: bold;
     box-shadow: 0 10px 10px -10px var(--LINK-ACTIVE);
-}
-
-.nav__box:hover {
-    font-weight: bold;
-    box-shadow: 0 5px 5px -5px var(--HOVER);
-}
-
-.wrapper {
-    display: none;
-}
-
-.wrapper > * {
-    padding: 10px;
-    flex: 1 100%;
-}
-
-.wrapper--active {
-    display: flex;
-    flex-flow: row wrap;
-    scroll-margin-top: 6.5rem;
-    margin: var(--MARGIN);
-    word-wrap: normal;
+    color: var(--LINK-ACTIVE);
 }
 
 .main {
-    min-height: 100vh;
+    min-height: 80vh;
     max-width: fit-content;
 }
 
-.side1 {
-    display: grid;
-    justify-content: center;
-}
-
-.side1 img{
-    text-align: justify;
-    min-width: 25vw;
-    max-width: 300px;
+.img-general {
+    float: right;
+    max-width: 100%;
     height: auto;
+    border-radius: 10px;
+    margin: var(--PADDING-TB) 0;
 }
 
-.img-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 100px 300px;
-    grid-gap: 10px;
-    grid-auto-flow: dense;
+.img-general-1 {
+    float: right;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: var(--PADDING-TB) 0;
+}
 
-    img {
-        max-width: 30%;
-    }
-
+.vid-general {
+    float: right;
+    max-width: 100%;
+    height: auto;
+    margin: var(--PADDING-SIDE) 0;
 }
 
 
-
-/* || FOOTER */
+/* FOOTER */
 .footer {
     position: relative;
     bottom: 0px;
-    background-color: var(--HEADER-BGCOLOR);
+    margin-top: var(--PADDING-TB);
     padding: var(--PADDING-TB) var(--PADDING-SIDE);
     text-align: center;
 }
 .footer a {
-    color: var(--HEADER-COLOR);
+    color: var(--COLOR);
 }
 
 .footer:hover a {
@@ -226,3 +193,91 @@ a:active {
 .footer:active a {
     color: var(--LINK-ACTIVE);
 }
+
+
+/* Screen Settings; @media */
+@media only screen and (min-width: 450px) {
+    .img-general {
+        float: right;
+        max-width: 35%;
+        height: auto;
+        margin-left: var(--PADDING-SIDE);
+        margin-top: var(--FS);
+    }
+
+    .img-grid {
+        --gap: 16px;
+        --num-cols:2;
+        --row-height:300px;
+
+        box-sizing: border-box;
+        padding: var(--gap);
+
+        display: grid;
+        grid-template-columns: repeat(var((--num-cols),1fr));
+        grid-auto-rows: var(--row-height);
+        gap: var(--gap);
+        
+    }
+
+    .img-grid > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+       
+    img {
+        width: 750px;;
+        height: auto;
+    }
+
+    header nav ul li {
+        padding: 20px;
+    }
+} 
+
+/* Think about dealing with rotated screens */
+
+
+@media only screen and (min-width: 700px) {
+    img {
+        width: 750px;;
+        height: auto;
+    }
+    
+    header nav ul li {
+        padding: 20px 70px;
+    }
+} 
+
+/*
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #2f2f2f;
+        color: var(--BODY-BGCOLOR);
+    }
+
+    a {
+        color: var(--BODY-BGCOLOR);
+    }
+
+    .footer a {
+        color: var(--BODY-BGCOLOR);
+    }
+
+    .footer a:hover {
+        color: #EC8383;
+    }
+
+    .footer a:active {
+        color: var(--LINK-ACTIVE);
+    }
+
+    .nav__box a:hover {
+        color: #EC8383;
+    }
+    .nav__box a:active {
+        color: var(--LINK-ACTIVE);
+    }
+}
+*/

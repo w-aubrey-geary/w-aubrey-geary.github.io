@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="William Aubrey Geary">
+        <meta name="description" content="About Aubrey Geary">
+        <title>Aubrey Geary</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="img/favicon_io/android-chrome-512x512.png" type="image/x-icon">
+    
+    </head>
+    
+    <!--Header and Navigation Buttons-->
+    <body>
+        <header>
+            <h1 class="header">Aubrey Geary</h1>
+
+            <nav class="navbar">
+                <ul>
+                    <li class="nav__box"><a href="index.html">About Me</a></li>
+                    <li class="nav__box"><a href="pfolio.html">Portfolio</a></li>
+                    <li class="nav__box"><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+
+        </header>
+    </body>
+
+    <!--Second Page-->
+    <div class="main">
+
+        <h2>Personal Hobby CubeSat</h2>
+        <img src="img/page_img/Portfolio/cubesat_prelim_assembly.png" alt="" class="img-general">
+
+        <img src="img/page_img/Portfolio/cubesat_prelim_assembly_extruded.png" alt="" class="img-general">
+        <p>
+
+        </p>
+
+
+        <h2>Senior Design Project:</h2>
+        <img src="/img/page_img/Portfolio/logo_2024.png" alt="GLADOS Mission Patch for Senior Design Team" class="img-general">
+        <p>
+
+            Project SENTINEL is a simulated proof-of-concept mission aiming to conduct optical Space Situational Awareness (SSA) on objects within the geostationary (GEO) belt. The spacecraft, a 3U CubeSat, will deploy in an equatorial orbit within 300 km of the GEO belt, taking multi-image collects of objects using a camera with a maximum capture distance of 3,000 km. The mission's objective period starts upon deployment into orbit with a projected lifetime of 2 years. The spacecraft must transmit data to the mission team daily, receive software updates, and adhere to compliance documents, such as GSFC-STD-7000 and MIL-STD-1246C. It must withstand environmental conditions, undergo end-to-end testing, and adhere to a budget cap of $250,000 USD. Additionally, a spacecraft development schedule, work breakdown structure, critical path, and concept of operations schedule must be created.
+        </p>        
+        <video src="img/page_img/Portfolio/GLADOS_collect.mp4" class="video-player vid-general" controls></video>
+        <p>
+            My work on this project has consisted of performing Test Engineering tasks, such as determining proper radiation hardening techniques and material thicknesses, ensuring adherence and survivability of launch and on-orbit temperature regimes, and defending against catastrophic disassembly as a result of vibrations and acoustic shocks from launch vehicle egress of the atmosphere. I have also simulated the orbit and downlink transmissions of our spacecraft in Systems Tool Kit (STK) and assigned it inertially pointing qualities so that the starfield in its image collects remains relatively stationery, while resident space objects appear to move. 
+        </p>
+
+        
+
+       <!-- 
+        <p>
+            <h2>Computational Fluid Dynamics</h2>
+
+            A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. 
+        </p>
+        <img src="img/page_img/Portfolio/Plate z-displacement vs. time, flexible body.png" alt="CFD Results." class="img-general-1">
+        -->
+
+        <h2>Navy Internship</h2>
+        <h3>SOFAR Spotter Comparison</h3>
+        <p>
+            During the summer of 2023, I was employed through the Naval Research Enterprise Internship Program (NREIP) program at Stennis Space Center, Mississippi. During my tenure, I  led a few projects and was able to surpass even my own expectations.  Below are just a few images generated from two of five projects I led.
+        </p>
+        <br>
+        <p>
+            Project 1 dealt with the the calculation of significant wave height performed by the SOFAR Spotter drifting buoys deployed in the Gulf of Mexico. Data from these buoys was compared to that given by the National Oceanic and Atmospheric Administration's National Data Buoy Center (NOAA-NDBC).
+        </p>
+        <br>
+        <p>
+            The plot below was generated in MATLAB using a great circle mapping tool I developed to compare latitude and longitude of the drifting buoy to that of the moored, relatively stationery buoy. This tool then outputted nearest neighbor data so that the most accurate data could be compared between SOFAR and NOAA-NDBC buoys.
+        </p>
+        <img src="img/page_img/Portfolio/Drift Path.png" alt="SOFAR Spotter Buoy and NDBC Comparision." class="img-general">
+        <p>
+            This result was used in a simple integrative sum as outined by the SOFAR Technical Reference Manual to calculate significant wave height.
+        </p>
+        <br>
+        <p>
+            From the plot below, I noted what seemed to be noise in the SOFAR buoy data, as calculated magnitudes of significant wave height were orders of magnitudes greater than that provided by the NDBC.
+        </p>
+        <img src="img/page_img/Portfolio/SPOT_01006_Significant_Wave_Height_Comparison.png" alt="SOFAR Spotter Buoy and NDBC Comparision." class="img-general">
+
+        <h3>Ocean Bubble Depth and Windspeed Correlations</h3>
+        <p>
+            Project 2 was much more ambitious of my self and the United States Navy. Together, we aimed to correlate 10m windspeed above the oceans to the depth of bubbles within the oceans. At first, the project had slow progress and low correlations, but after 10 weeks of hard work, the plots below were produced.
+        </p>
+        <img src="img/page_img/Portfolio/BinSort_Global_Bubble_Depth_12_2015.png" alt="Global Ocean Bubble Depth for 2015, from CALIPSO satellite data." class="img-general">
+        <p>
+            Above is the plot of global ocean bubble depth for December of 2015 provided by the NASA/ CNES CALIPSO satellite. On the right half of the image, the Americas can be seen in the grey space left by unfilled data points.
+        </p>
+        <br>
+        <p>
+            Below is a similar plot, but it shows the global windspeed provided by the Advanced Microwave Scanning radiometer (AMSR) onboard the GCOM-W1 "SHIZUKU" and Aqua satellites.
+        </p>
+        <img src="img/page_img/Portfolio/BinSort_Global_Windspeed_12_2015.png" alt="Global Windspeed for 2015, from CALIPSO satellite data / ERA5 reanalysis." class="img-general">
+        <p>
+            Using the data from the two plots above, a corellation was made. What was once less than R = 0.2 has become as high as R = 0.65. In the case of December 2015, this was slightly less but still significant, as seen in the density scatter plot below.
+        </p>
+        <img src="img/page_img/Portfolio/Density_Scatter_12_2015.png" alt="Bubble Depth and Windspeed corellation density scattter plot." class="img-general">
+
+        <h2>Airfoil Design</h2>
+        <p>
+            During the Spring Semester of my Junior year of college, I led project in an attempt to design a novel airfoil in my experimental aerodynamics lab. The airfoil, as seen in the MATLAB plot below, revolves a NACA 5-series airfoil around its midline annf scales the result to maintain the thickness-to-chord ratio of the airfoil.
+        </p>
+
+        <img src="img/page_img/Portfolio/55112 comparison.png" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." class="img-general">
+        <p>
+            The CATIA Assembly of this wing section and the subsonic wind used in its testing are shown.
+        </p>
+        <img src="img/page_img/Portfolio/Product.png" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." class="img-general">
+        <p>
+            Once assembled by the team, the airfoil was required to undergo static load testing to simulate maximum aerodynamic loading on the wing section. A factor of safety was applied to this maximum and masses were loaded to the part both parallel and perpendicular to its chord.
+        </p>
+        <img src="img/page_img/Portfolio/airfoil_mass_load.jpg" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." class="img-general">
+        <p>
+            The component is shown below in its fully integrated configuration with attached pressure port tubing, data aquisition device, and assembled wind tunnel are shown.
+        </p>
+        <img src="img/page_img/Portfolio/pitot_connections.jpg" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." class="img-general">
+
+        <!--
+        <h2>eVTOL UAM</h2>
+        <p>
+            A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. A lot of text. 
+        </p>
+        <img src="img/page_img/Portfolio/simulator.jpg" alt="eVTOL UAM Simulator" class="img-general">
+
+        <img src="img/page_img/Portfolio/inceptor_plate.jpg" alt="Personally designed mounting plate." class="img-general">
+
+        <img src="img/page_img/Portfolio/mount_pinned.jpg" alt="Hand fabricated parts in pre-assembly." class="img-general">
+
+        <img src="img/page_img/Portfolio/mount_pinned_welded.jpg" alt="Mouting system after being welded by our shop manager." class="img-general">
+
+        <img src="img/page_img/Portfolio/Mounting System V3 Image 5.png" alt="Inceptor model and CAD ddesign of mounting system in CATIA Assembly." class="img-general">
+        -->
+
+    </div>
+    
+    <footer class="footer">
+        <a href="#">Back To Top</a>
+    </footer>
+    
+</html>

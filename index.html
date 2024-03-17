@@ -1,238 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="William Aubrey Geary">
+        <meta name="description" content="About Aubrey Geary">
+        <title>Aubrey Geary</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="img/favicon_io/android-chrome-512x512.png" type="image/x-icon">
+    
+    </head>
+    
+    <!--Header and Navigation Buttons-->
+    <body>
+        <header>
+            <h1 class="header">Aubrey Geary</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="William Aubrey Geary">
-    <meta name="description" content="About Aubrey Geary">
-    <title>Aubrey Geary Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="img/favicon_io/android-chrome-512x512.png" type="image/x-icon">
+            <nav class="navbar">
+                <ul>
+                    <li class="nav__box"><a href="index.html">About Me</a></li>
+                    <li class="nav__box"><a href="pfolio.html">Portfolio</a></li>
+                    <li class="nav__box"><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
 
-</head>
+        </header>
+    </body>
 
-<body>
-    <nav class="navbar">
-        <h1 class="header">William Aubrey Geary</h1>
-
-        <button class="nav__box" data-for-tab="1">Home</button>
-        <button class="nav__box" data-for-tab="2">Portfolio</button>
-        <button class="nav__box" data-for-tab="3">Contact</button>
-    </nav>
-
-    <div class="wrapper" data-tab="1"> 
-        <div class="main">
-            
-            <div class="side side1">
-                <img src="img/page_img/prof_headshot.png" alt="This is me!" class="img" width="2918" height="4000">
-            </div>
-            <br>
+    <!--First Page-->
+    <div class="main">
+        <img src="img/page_img/prof_headshot (Medium).png" alt="This is me!" class="img-general" width="2918" height="4000">
+        
+        <p>
             <h2>About Me</h2>
-            <p>
-                My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
-                While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
-                electronics, and rocketry!
-            </p>
-            <p>
-                I am in the final year of my Bachelor of Science Degree in Aerospace Engineering with a focus in Astronautics and a minor in Applied Mathematics.
-            </p>
 
-            <br>
+            My name is Aubrey Geary, and I'm an Aerospace Engineering student at Embry-Riddle Aeronautical University. 
+            While much of my time is spent in lecture halls, I still make time for hobbies like photography and film development, 
+            electronics, and rocketry!
+        
+            I am in the final year of my Bachelor of Science Degree in Aerospace Engineering with a focus in Astronautics and a minor in Applied Mathematics.
+        </p>  
 
-            <h2>Current Work</h2>
-            <p>
-                Right now, I'm working on 3 projects: Computational Fluid Dynamics Research, Space Situational Awareness Research, and this website!
-            </p>
-            <br>
+        <h2>Current Work</h2>
+        <p>
+            Right now, I'm working on 3 projects: Computational Fluid Dynamics Research, Space Situational Awareness Research, and this website! While I wrap up my CFD research, I'm also designing my own CubeSat which is shown in high-level detail in the Portfolio tab.
+        </p>
 
-            <h2>Hobbies</h2>
-            <div class="img-container">
-                <p>
-                    <img src="img/page_img/Hobbies/seattle _mog.jpg" alt="Hobby Image.">
-                    <img src="img/page_img/Hobbies/coke_sign.jpg" alt="Hobby Image.">
-                    <img src="img/page_img/Hobbies/snail.jpg" alt="Hobby Image.">
-                    <img src="img/page_img/Hobbies/discovery.jpg" alt="Hobby Image.">
-                </p>
-            </div>
+        <h2 >Hobbies</h2>
+        <h3>National Association of Rocketry Level 1 Certification</h3>
+        <video src="img/page_img/Hobbies/IMG_5999_1.mp4" class="video-player vid-general" controls></video>
+        <p>
+            As was seen in the video clip above, I have completed my Level 1 High-Powered rocketry certification! I built, and successfully launched and retrieved my rocket without any damages or faults.
+        </p>
+        <br>
+        <p>
+            With photography as a hobby, you accumulate mass ammounts of data in images and videos. Just a few of my favorite, more recent images are displayed below.
+        </p>
 
+        <div class="img-grid">
+            <img src="img/page_img/Hobbies/discovery.jpg" alt="Chantilly, VA: Space Shuttle Discovery at the National Air and Space Museum" class="img-general-1">
+            <img src="img/page_img/Hobbies/coke_sign.jpg" alt="New Orleans, LA: Coke sign on the corner of Royal and Ursulines." class="img-general-1">
+            <img src="img/page_img/Hobbies/seattle_mog.jpg" alt="Seattle, WA: Space Needle seen from the Garden of Glass." class="img-general-1">
+            <img src="img/page_img/Hobbies/snail.jpg" alt="Daytona Beach, FL: A garden snail on a bush near the College of Engineering at ERAU-DB." class="img-general-1">
         </div>
+
+
     </div>
-
-    <div class="wrapper" data-tab="2"> 
-        <div class="main">
-            <h3>Senior Design Project:</h3>
-            <p>
-                Project SENTINEL is a simulated proof-of-concept mission aiming to conduct optical Space Situational Awareness (SSA) on objects within the geostationary (GEO) belt. The spacecraft, a 3U CubeSat, will deploy in an equatorial orbit within 300 km of the GEO belt, taking multi-image collects of objects using a camera with a maximum capture distance of 3,000 km. The mission's objective period starts upon deployment into orbit with a projected lifetime of 2 years. The spacecraft must transmit data to the mission team daily, receive software updates, and adhere to compliance documents, such as GSFC-STD-7000 and MIL-STD-1246C. It must withstand environmental conditions, undergo end-to-end testing, and adhere to a budget cap of $250,000 USD. Additionally, a spacecraft development schedule, work breakdown structure, critical path, and concept of operations schedule must be created.
-            </p>
-            <p>
-                My work on this project has consisted of performing Test Engineering tasks, such as determining proper radiation hardening techniques and material thicknesses, ensuring adherence and survivability of launch and on-orbit temperature regimes, and defending against catastrophic disassembly as a result of vibrations and acoustic shocks from launch vehicle egress of the atmosphere. I have also simulated the orbit and downlink transmissions of our spacecraft in Systems Tool Kit (STK) and assigned it inertially pointing qualities so that the starfield in its image collects remains relatively stationery, while resident space objects appear to move. 
-            </p>
-            <p>
-                <img src="img/page_img/Portfolio/logo_2024.png" alt="Project GLADOS Mission Patch." style="width: 30%;">
-            </p>
-
-            <p>
-                <video src="img/page_img/Portfolio/GLADOS_collect.mp4" style="width: 50%;" class="video-player" controls></video>
-            </p>
-
-            <!--
-            <br>
-            <h3>Space Situational Awareness</h3>
-            <p>
-                <img src="/img/page_img/Portfolio/06_02_03Z.gif" alt="RSOID fits file reading and display." style="width: 50%;">
-            </p>
-            -->
-
-            <br>
-            <h3>Computational Fluid Dynamics (CFD)</h3>
-            <p>
-                <img src="img/page_img/Portfolio/Plate z-displacement vs. time, flexible body.png" alt="" style="width: 50%;">
-            </p>
-
-            <br>
-            <h3>Naval Research Enterprise Internship Program (NREIP)</h3>
-            <p>
-                <img src="img/page_img/Portfolio/Drift Path.png" alt="SOFAR Spotter Buoy and NDBC Comparision." style="width: 50%;">
-                <img src="img/page_img/Portfolio/BinSort_Global_Bubble_Depth_12_2015.png" alt="Global Ocean Bubble Depth for 2015, from CALIPSO satellite data." style="width: 50%;">
-                <img src="img/page_img/Portfolio/BinSort_Global_Windspeed_12_2015.png" alt="Global Windspeed for 2015, from CALIPSO satellite data / ERA5 reanalysis." style="width: 50%;">
-                <img src="img/page_img/Portfolio/Density_Scatter_12_2015.png" alt="Bubble Depth and Windspeed corellation density scattter plot." style="width: 50%;">
-            </p>
-
-            <br>
-            <h3>Airfoil Design</h3>
-            <p>
-                <img src="img/page_img/Portfolio/Product.png" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." style="width: 50%;">
-                <img src="img/page_img/Portfolio/55112 comparison.png" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." style="width: 50%;">
-                <img src="img/page_img/Portfolio/pitot_connections.jpg" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." style="width: 50%;">
-                <img src="img/page_img/Portfolio/airfoil_mass_load.jpg" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." style="width: 50%;">
-                <img src="img/page_img/Portfolio/wing_assembly.jpg" alt="An airfoil of my own design under mass load to simulate maximum aerodynamic loads prior to test." style="width: 50%;">
-
-            </p>
-
-            <br>
-            <h3>eVTOL UAM</h3>
-            <p>
-                <img src="img/page_img/Portfolio/simulator.jpg" alt="eVTOL UAM Simulator" style="width: 50%;">
-                <img src="img/page_img/Portfolio/inceptor_plate.jpg" alt="Personally designed mounting plate." style="width: 50%;">
-                <img src="img/page_img/Portfolio/mount_pinned.jpg" alt="Hand fabricated parts in pre-assembly." style="width: 50%;">
-                <img src="img/page_img/Portfolio/mount_pinned_welded.jpg" alt="Mouting system after being welded by our shop manager." style="width: 50%;">
-                <img src="img/page_img/Portfolio/Mounting System V3 Image 5.png" alt="Inceptor model and CAD ddesign of mounting system in CATIA Assembly." style="width: 50%;">
-            </p>
-        </div>
-    </div>
-
-    <div class="wrapper" data-tab="3"> 
-        <div class="main">
-            <h2>Message Me</h2>
-            
-            <!-- <div class="container">
-                <form action="" method="post" class="form">
-                    <div class="form-group">
-                        <label for="name" class="form-label">Your Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Jane Doe" tabindex="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Jane@Doe.com" tabindex="2" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" class="form-label">Enter Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Hello There" tabindex="3" required>
-                        <textarea name="message" id="message" cols="30" rows="10" placeholder="Enter Message..." tabindex="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Send Message</button>
-
-                    </div>
-                </form>
-            </div>
-        -->
-            
-
-            <br>
-            <p class="LinkedIn">
-                <p class="LinkedIn__Icon">
-                    <a href="https://www.linkedin.com/in/w-aubrey-geary/"><img src="img/LinkedIn-Logos/LI-In-Bug.png" alt="My LinkedIn Page!" style="height: 0.5in;"></a>
-                </p>
-
-                <p class="LinkedIn__Icon">
-                    <a href="https://www.linkedin.com/in/w-aubrey-geary/"><img src="img/LinkedIn-Logos/LI-In-Bug.png" alt="My LinkedIn Page!" style="height: 0.5in;"></a>
-                </p>
-            </p>
-
-            <p class="LinkedIn">
-                <p class="LinkedIn__Icon">
-                    <a href="https://www.linkedin.com/in/w-aubrey-geary/"><img src="img/Flaticon-Icons/contract.png" alt="My LinkedIn Page!" style="height: 0.5in;"></a>
-
-                    &emsp; Check out my LinkedIn here to connect or see what I'm up to!
-                </p>
-            </p>
-
-            <p class="LinkedIn">
-                <p class="LinkedIn__Icon">
-                    <a href="https://www.linkedin.com/in/w-aubrey-geary/"><img src="img/Flaticon-Icons/mail.png" alt="My LinkedIn Page!" style="height: 0.5in;"></a>
-
-                    &emsp; Check out my LinkedIn here to connect or see what I'm up to!
-                </p>
-            </p>
-
-            <br>
-            <p>
-                For my resume, check <a href="AubreyGearyCV2024.pdf">here. </a>
-            </p>
-
-            <br>
-            <h2>About this Project</h2>
-            <p>
-                My color template was generated from <a href="https://coolors.co/">coolers.co.</a>
-            
-                My custom favicon, or page icon displayed on the web tab, was generated from <a href="https://favicon.io/">favicon.io.</a>
-                
-                I used <a href="https://youtu.be/OXGznpKZ_sA?feature=shared">this</a> wonderful, comprehensive CSS tutorial for most of this project.
-                
-                I chose the font family Afacad from Google seen <a href="https://youtu.be/OXGznpKZ_sA?feature=shared">here</a>, as well! I used the LinkedIn Guidelines <a href="https://brand.linkedin.com/downloads">here</a> for their logo use.
-
-                Document icons created by <a href="https://www.flaticon.com/free-icons/document" title="document icons">Freepik - Flaticon</a>
-            </p>
-        </div>
-    </div>
-
+    
     <footer class="footer">
-            <a href="#">Back To Top</a>
+        <a href="#">Back To Top</a>
     </footer>
-
-    <script>
-        function setupTabs() {
-            document.querySelectorAll(".nav__box").forEach(button => {
-            button.addEventListener("click", () => {
-                const sideBar = button.parentElement;
-                const tabsContainer = sideBar.parentElement;
-                const tabNumber = button.dataset.forTab;
-                const tabToActivate = tabsContainer.querySelector('.wrapper[data-tab="' + tabNumber + '"]');
-
-                sideBar.querySelectorAll(".nav__box").forEach(button => {
-                button.classList.remove("nav__box--active");
-                });
-
-                tabsContainer.querySelectorAll(".wrapper").forEach(tab => {
-                tab.classList.remove("wrapper--active");
-                });
-
-                button.classList.add("nav__box--active");
-                tabToActivate.classList.add("wrapper--active");
-            });
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () =>{
-            setupTabs();
-
-            document.querySelectorAll(".navbar").forEach(tabsContainer => {
-            tabsContainer.querySelector(".navbar .nav__box").click();
-            });
-        });
-    </script>
-
-</body>
+    
 </html>
