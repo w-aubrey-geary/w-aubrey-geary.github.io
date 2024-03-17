@@ -250,7 +250,7 @@ header nav ul li {
     }
 } 
 
-
+/*
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #2f2f2f;
@@ -280,4 +280,4 @@ header nav ul li {
         color: var(--LINK-ACTIVE);
     }
 }
-
+*/
