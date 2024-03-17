@@ -170,6 +170,7 @@ header nav ul li {
     float: right;
     max-width: 100%;
     height: auto;
+    border-radius: 10px;
     margin: var(--PADDING-SIDE) 0;
 }
 
