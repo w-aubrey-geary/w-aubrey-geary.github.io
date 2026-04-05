@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0d14">
+<link rel="manifest" href="manifest.json">
 <title>Zekrom Cards</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -129,7 +130,10 @@ footer{border-top:1px solid var(--bd);padding:8px 14px calc(var(--bot) + 8px);di
 .modal-save{width:100%;background:linear-gradient(135deg,var(--sell),var(--wish));border:none;color:#000;font-family:var(--fm);font-weight:700;font-size:.8rem;padding:13px;border-radius:9px;cursor:pointer;margin-top:6px;letter-spacing:1px}
 .modal-save:active{opacity:.8}
 .modal-cancel{width:100%;background:transparent;border:1px solid var(--bd);color:var(--dim);font-family:var(--fm);font-size:.7rem;padding:10px;border-radius:8px;cursor:pointer;margin-top:6px;letter-spacing:1px}
-.hdr-btn.add-btn{background:linear-gradient(135deg,var(--sell),var(--wish));color:#000;border:none;font-weight:700;font-size:.85rem;padding:7px 12px}
+.save-dot{font-size:.9rem;flex-shrink:0;transition:color .4s}
+.save-dot.saved{color:var(--coll)}
+.save-dot.saving{color:#ffe600}
+.save-dot.empty{color:var(--bd)}
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--dim);text-align:center;padding:40px 20px}
 .empty-icon{font-size:3.5rem}
 .empty p{font-size:.75rem;line-height:1.8;letter-spacing:.5px}
@@ -143,8 +147,8 @@ footer{border-top:1px solid var(--bd);padding:8px 14px calc(var(--bot) + 8px);di
   <input type="text" id="search" placeholder="Search…" oninput="render()">
   <button class="hdr-btn load" onclick="document.getElementById('fileInput').click()">LOAD</button>
   <button class="hdr-btn add-btn" onclick="openAdd()">＋</button>
-  <button class="hdr-btn" onclick="saveHTML()">SAVE</button>
   <button class="hdr-btn" onclick="exportCSV()">CSV</button>
+  <span class="save-dot" id="saveDot" title="All changes saved">●</span>
   <input type="file" id="fileInput" accept=".csv,text/csv" onchange="onFile(event)">
 </div>
 
@@ -236,23 +240,40 @@ footer{border-top:1px solid var(--bd);padding:8px 14px calc(var(--bot) + 8px);di
   <span class="foot-meta" id="footMeta">No file loaded</span>
 </footer>
 
-<script id="stored-data" type="application/json">[]</script>
 <script>
 // ── STATE ────────────────────────────────────────────────────
 let rows=[], sortCol=null, sortDir=1, listF='all', lastSel=null;
+const LS_KEY='zekrom_cards_v1';
 
-// Boot from embedded data if present
+// ── AUTOSAVE ─────────────────────────────────────────────────
+let saveTimer;
+function persist(){
+  const dot=document.getElementById('saveDot');
+  dot.className='save-dot saving';
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{
+      localStorage.setItem(LS_KEY,JSON.stringify(rows.map(r=>{const{_sel,...rest}=r;return rest;})));
+      dot.className='save-dot saved';
+    }catch(e){dot.className='save-dot empty';}
+  },600);
+}
+
+// ── BOOT FROM LOCALSTORAGE ────────────────────────────────────
 (function(){
   try{
-    const stored=JSON.parse(document.getElementById('stored-data').textContent||'[]');
+    const stored=JSON.parse(localStorage.getItem(LS_KEY)||'[]');
     if(stored.length){
-      rows=stored;
+      rows=stored.map(r=>({...r,_sel:false,_done:r._done||false}));
       buildHead();buildFolders();
       document.getElementById('tbl').style.display='';
       document.getElementById('empty').style.display='none';
       render();
+      document.getElementById('saveDot').className='save-dot saved';
+    } else {
+      document.getElementById('saveDot').className='save-dot empty';
     }
-  }catch(e){}
+  }catch(e){document.getElementById('saveDot').className='save-dot empty';}
 })();
 
 const COLS=[
@@ -282,6 +303,7 @@ function load(txt){
   buildFolders();
   document.getElementById('tbl').style.display='';
   document.getElementById('empty').style.display='none';
+  persist();
   render();
 }
 
@@ -412,6 +434,7 @@ tbody.addEventListener('pointerdown',e=>{
     const r=rows[ri];if(!r)return;
     r._done=!r._done;
     if(r._done&&(r._t==='wish'||r._t==='need'))r._t='coll';
+    persist();
     render();
     return;
   }
@@ -457,33 +480,14 @@ tbody.addEventListener('click',e=>{
 });
 
 // ── BULK ─────────────────────────────────────────────────────
-function bulkMove(t){rows.filter(r=>r._sel).forEach(r=>{r._t=t;r._sel=false});render()}
+function bulkMove(t){rows.filter(r=>r._sel).forEach(r=>{r._t=t;r._sel=false});persist();render()}
 function bulkDel(){
   const n=rows.filter(r=>r._sel).length;
   if(!n||!confirm(`Remove ${n} card${n>1?'s':''}?`))return;
   rows=rows.filter(r=>!r._sel);
-  buildFolders();render();
+  buildFolders();persist();render();
 }
 function desel(){rows.forEach(r=>r._sel=false);lastSel=null;render()}
-
-// ── SAVE AS SELF-CONTAINED HTML ───────────────────────────────
-function saveHTML(){
-  if(!rows.length)return;
-  // Grab the current page source and replace the stored-data payload
-  const src=document.documentElement.outerHTML;
-  const json=JSON.stringify(rows.map(r=>{
-    // strip selection state before saving
-    const {_sel,...rest}=r;return rest;
-  }));
-  const updated=src.replace(
-    /<script id="stored-data"[^>]*>[\s\S]*?<\/script>/,
-    `<script id="stored-data" type="application/json">${json}<\/script>`
-  );
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([updated],{type:'text/html'}));
-  a.download='zekrom-cards.html';
-  a.click();
-}
 
 function exportCSV(){
   if(!rows.length)return;
@@ -543,6 +547,7 @@ function saveAdd(){
   document.getElementById('tbl').style.display='';
   document.getElementById('empty').style.display='none';
   document.getElementById('modalBg').classList.add('hidden');
+  persist();
   render();
 }
 
@@ -553,6 +558,13 @@ document.addEventListener('drop',e=>{
   const f=e.dataTransfer.files[0];
   if(f&&(f.name.endsWith('.csv')||f.type==='text/csv'))readF(f);
 });
+
+// ── SERVICE WORKER ───────────────────────────────────────────
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
 
 // ── UTILS ────────────────────────────────────────────────────
 function esc(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):''}

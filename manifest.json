@@ -1,0 +1,18 @@
+{
+  "name": "Zekrom Cards",
+  "short_name": "Zekrom",
+  "description": "Pokémon card show tool",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d0d14",
+  "theme_color": "#0d0d14",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230d0d14'/><text x='96' y='130' font-size='110' text-anchor='middle' font-family='serif'>⚡</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
