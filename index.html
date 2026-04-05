@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0d14">
+<title>Zekrom Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d14;--sf:#15151f;--sf2:#1e1e2c;--bd:#28283c;
+  --tx:#e0e0ee;--dim:#555570;
+  --wish:#b388ff;--need:#ff4d6d;--sell:#00d4f0;--coll:#50e090;
+  --fd:'Bebas Neue',sans-serif;--fm:'DM Mono',monospace;
+  --top:env(safe-area-inset-top,0px);
+  --bot:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;max-width:100vw}
+body{background:var(--bg);color:var(--tx);font-family:var(--fm);font-size:14px;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── HEADER ── */
+.hdr{display:flex;align-items:center;gap:10px;padding:calc(var(--top) + 10px) 14px 10px;background:var(--sf);border-bottom:1px solid var(--bd);flex-shrink:0}
+.logo{font-family:var(--fd);font-size:1.5rem;letter-spacing:3px;background:linear-gradient(135deg,var(--sell),var(--wish));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;flex-shrink:0}
+.hdr input[type=text]{flex:1;background:var(--sf2);border:1px solid var(--bd);color:var(--tx);font-family:var(--fm);font-size:.8rem;padding:8px 10px;border-radius:7px;outline:none;min-width:0}
+.hdr input[type=text]:focus{border-color:var(--sell)}
+.hdr-btn{background:var(--sf2);border:1px solid var(--bd);color:var(--dim);font-family:var(--fm);font-size:.6rem;padding:8px 11px;border-radius:7px;cursor:pointer;white-space:nowrap;flex-shrink:0;letter-spacing:.5px}
+.hdr-btn.load{background:linear-gradient(135deg,var(--sell),var(--wish));color:#000;border:none;font-weight:700}
+.hdr-btn:active{opacity:.6}
+#fileInput{display:none}
+
+/* ── FILTER BAR ── */
+.fbar{display:flex;gap:6px;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--bd);overflow-x:auto;overflow-y:hidden;align-items:center;flex-shrink:0;-webkit-overflow-scrolling:touch;max-width:100vw}
+.fbar::-webkit-scrollbar{display:none}
+.chip{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:5px 12px;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;cursor:pointer;color:var(--dim);flex-shrink:0}
+.chip.on-all {border-color:#ffe600;color:#ffe600}
+.chip.on-wish{border-color:var(--wish);color:var(--wish)}
+.chip.on-need{border-color:var(--need);color:var(--need)}
+.chip.on-sell{border-color:var(--sell);color:var(--sell)}
+.chip.on-coll{border-color:var(--coll);color:var(--coll)}
+select.chip{-webkit-appearance:none;appearance:none;cursor:pointer;background:var(--sf)}
+
+/* ── BULK BAR — always present, fades when idle ── */
+.bbar{display:flex;align-items:center;gap:7px;padding:7px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;flex-wrap:nowrap;background:var(--sf);overflow-x:auto;overflow-y:hidden;max-width:100vw}
+.bbar::-webkit-scrollbar{display:none}
+.bbar-label{font-size:.58rem;letter-spacing:1px;color:var(--dim);flex-shrink:0;min-width:60px}
+.bbar.on .bbar-label{color:#ffe600}
+.bb{border:1px solid var(--bd);background:transparent;color:var(--dim);font-family:var(--fm);font-size:.56rem;letter-spacing:.5px;padding:5px 9px;border-radius:5px;cursor:pointer;pointer-events:none;opacity:.3;white-space:nowrap}
+.bbar.on .bb{pointer-events:all;opacity:1}
+.bbar.on .bb:active{opacity:.6}
+.bbar.on .bb.mv-wish{color:var(--wish);border-color:var(--wish)}
+.bbar.on .bb.mv-need{color:var(--need);border-color:var(--need)}
+.bbar.on .bb.mv-sell{color:var(--sell);border-color:var(--sell)}
+.bbar.on .bb.mv-coll{color:var(--coll);border-color:var(--coll)}
+.bbar.on .bb.del{color:var(--need);border-color:var(--need)}
+.bbar.on .bb.clr{color:var(--dim);border-color:var(--bd)}
+
+/* ── TABLE ── */
+.wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.wrap::-webkit-scrollbar{display:none}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+thead{position:sticky;top:0;z-index:10;background:var(--sf)}
+th{padding:9px 10px;text-align:left;font-size:.5rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--bd);white-space:nowrap;user-select:none;cursor:pointer}
+th.ns{cursor:default}
+th:not(.ns):active{color:var(--tx)}
+th.asc::after{content:' ↑';color:#ffe600}
+th.desc::after{content:' ↓';color:#ffe600}
+
+/* rows */
+tr.data-row{cursor:pointer}
+tr.data-row:active td{background:rgba(255,255,255,.04)}
+td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+th.price-th{width:64px;text-align:right}
+th.chk{width:44px;text-align:center;cursor:default}
+td.price-col{width:64px;white-space:nowrap;text-align:right;overflow:visible}
+td.name-col{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
+
+/* list accent */
+tr.l-wish td.name-col{border-left:2px solid var(--wish)}
+tr.l-need td.name-col{border-left:2px solid var(--need)}
+tr.l-sell td.name-col{border-left:2px solid var(--sell)}
+tr.l-coll td.name-col{border-left:2px solid var(--coll)}
+
+/* done = greyed + strikethrough */
+tr.done td{opacity:.3;text-decoration:line-through;text-decoration-color:rgba(255,255,255,.3)}
+
+/* selected highlight */
+tr.sel-on td{background:rgba(255,230,0,.05)}
+
+/* checkbox cell — right side */
+td.chk,th.chk{width:38px;min-width:38px;text-align:center;padding:10px 8px 10px 4px;cursor:pointer}
+.box{width:17px;height:17px;border-radius:4px;border:1.5px solid var(--bd);display:inline-flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0;background:transparent}
+tr.sel-on .box{border-color:#ffe600;background:rgba(255,230,0,.15)}
+tr.sel-on .box::after{content:'✓';font-size:.6rem;color:#ffe600}
+
+/* badges */
+.badge{display:inline-block;font-size:.45rem;letter-spacing:.5px;text-transform:uppercase;padding:2px 5px;border-radius:3px;font-weight:700;vertical-align:middle}
+.bw{background:rgba(179,136,255,.18);color:var(--wish)}
+.bn{background:rgba(255,77,109,.18);color:var(--need)}
+.bs{background:rgba(0,212,240,.18);color:var(--sell)}
+.bc{background:rgba(80,224,144,.15);color:var(--coll)}
+.bg{background:rgba(255,230,0,.12);color:#ffe600}
+.dim-txt{color:var(--dim);font-size:.8rem}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--bd);padding:8px 14px calc(var(--bot) + 8px);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--sf)}
+.foot-logo{font-family:var(--fd);font-size:.9rem;letter-spacing:3px;background:linear-gradient(135deg,var(--sell),var(--wish));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.foot-meta{font-size:.55rem;letter-spacing:1px;color:var(--dim)}
+
+/* ── ADD MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal-bg.hidden{display:none}
+.modal{background:var(--sf);border:1px solid var(--bd);border-radius:16px 16px 0 0;padding:20px 16px calc(var(--bot)+20px);width:100%;max-width:500px}
+.modal-handle{width:36px;height:4px;background:var(--bd);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-family:var(--fd);font-size:1.3rem;letter-spacing:2px;color:var(--sell);margin-bottom:14px}
+.field{margin-bottom:10px}
+.field label{display:block;font-size:.52rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.field input,.field select{width:100%;background:var(--sf2);border:1px solid var(--bd);color:var(--tx);font-family:var(--fm);font-size:.85rem;padding:10px 11px;border-radius:8px;outline:none;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:var(--sell)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.type-opt{border:1px solid var(--bd);background:var(--sf2);color:var(--dim);font-family:var(--fm);font-size:.55rem;letter-spacing:1px;text-transform:uppercase;padding:8px 4px;border-radius:6px;cursor:pointer;text-align:center}
+.type-opt.t-wish{border-color:var(--wish);color:var(--wish);background:rgba(179,136,255,.1)}
+.type-opt.t-need{border-color:var(--need);color:var(--need);background:rgba(255,77,109,.1)}
+.type-opt.t-sell{border-color:var(--sell);color:var(--sell);background:rgba(0,212,240,.1)}
+.type-opt.t-coll{border-color:var(--coll);color:var(--coll);background:rgba(80,224,144,.08)}
+.modal-save{width:100%;background:linear-gradient(135deg,var(--sell),var(--wish));border:none;color:#000;font-family:var(--fm);font-weight:700;font-size:.8rem;padding:13px;border-radius:9px;cursor:pointer;margin-top:6px;letter-spacing:1px}
+.modal-save:active{opacity:.8}
+.modal-cancel{width:100%;background:transparent;border:1px solid var(--bd);color:var(--dim);font-family:var(--fm);font-size:.7rem;padding:10px;border-radius:8px;cursor:pointer;margin-top:6px;letter-spacing:1px}
+.hdr-btn.add-btn{background:linear-gradient(135deg,var(--sell),var(--wish));color:#000;border:none;font-weight:700;font-size:.85rem;padding:7px 12px}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--dim);text-align:center;padding:40px 20px}
+.empty-icon{font-size:3.5rem}
+.empty p{font-size:.75rem;line-height:1.8;letter-spacing:.5px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo">ZEKROM</div>
+  <input type="text" id="search" placeholder="Search…" oninput="render()">
+  <button class="hdr-btn load" onclick="document.getElementById('fileInput').click()">LOAD</button>
+  <button class="hdr-btn add-btn" onclick="openAdd()">＋</button>
+  <button class="hdr-btn" onclick="saveHTML()">SAVE</button>
+  <button class="hdr-btn" onclick="exportCSV()">CSV</button>
+  <input type="file" id="fileInput" accept=".csv,text/csv" onchange="onFile(event)">
+</div>
+
+<!-- FILTER BAR -->
+<div class="fbar">
+  <div class="chip on-all" data-f="all" onclick="setList('all',this)">All <b id="ca">0</b></div>
+  <div class="chip" data-f="wish"       onclick="setList('wish',this)">★ Wish <b id="cw">0</b></div>
+  <div class="chip" data-f="need"       onclick="setList('need',this)">⚡ Need <b id="cn">0</b></div>
+  <div class="chip" data-f="sell"       onclick="setList('sell',this)">💠 Sell <b id="cs">0</b></div>
+  <div class="chip" data-f="coll"       onclick="setList('coll',this)">📦 Coll <b id="cc">0</b></div>
+  <select class="chip" id="folderSel" onchange="render()">
+    <option value="">All Folders</option>
+  </select>
+</div>
+
+<!-- BULK BAR -->
+<div class="bbar" id="bbar">
+  <span class="bbar-label" id="bbarLabel">0 selected</span>
+  <button class="bb mv-wish" onclick="bulkMove('wish')">→ Wish</button>
+  <button class="bb mv-need" onclick="bulkMove('need')">→ Need</button>
+  <button class="bb mv-sell" onclick="bulkMove('sell')">→ Sell</button>
+  <button class="bb mv-coll" onclick="bulkMove('coll')">→ Coll</button>
+  <button class="bb del"     onclick="bulkDel()">🗑</button>
+  <button class="bb clr"     onclick="desel()">✕</button>
+</div>
+
+<!-- TABLE -->
+<div class="wrap" id="wrap">
+  <div class="empty" id="empty">
+    <div class="empty-icon">📂</div>
+    <p>Tap <strong>CSV</strong> to load a PriceCharting export.<br>Drag &amp; drop also works.</p>
+  </div>
+  <table id="tbl" style="display:none">
+    <thead><tr id="thead"></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal-bg hidden" id="modalBg" onclick="closeAdd(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">ADD CARD</div>
+    <div class="field">
+      <label>List</label>
+      <div class="type-grid">
+        <div class="type-opt t-sell" data-t="sell"       onclick="pickAddType('sell',this)">💠 Sell</div>
+        <div class="type-opt"        data-t="wish"       onclick="pickAddType('wish',this)">★ Wish</div>
+        <div class="type-opt"        data-t="need"       onclick="pickAddType('need',this)">⚡ Need</div>
+        <div class="type-opt"        data-t="coll"       onclick="pickAddType('coll',this)">📦 Coll</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Card Name *</label>
+      <input type="text" id="add-name" placeholder="e.g. Charizard VMAX">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Set</label>
+        <input type="text" id="add-set" placeholder="e.g. Black Bolt">
+      </div>
+      <div class="field">
+        <label>Price ($)</label>
+        <input type="number" id="add-price" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Folder</label>
+        <input type="text" id="add-folder" placeholder="Binder name">
+      </div>
+      <div class="field">
+        <label>Quantity</label>
+        <input type="number" id="add-qty" value="1" min="1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <input type="text" id="add-notes" placeholder="Optional">
+    </div>
+    <button class="modal-save" onclick="saveAdd()">ADD CARD</button>
+    <button class="modal-cancel" onclick="closeAdd()">CANCEL</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="foot-logo">ZEKROM CARDS</span>
+  <span class="foot-meta" id="footMeta">No file loaded</span>
+</footer>
+
+<script id="stored-data" type="application/json">[]</script>
+<script>
+// ── STATE ────────────────────────────────────────────────────
+let rows=[], sortCol=null, sortDir=1, listF='all', lastSel=null;
+
+// Boot from embedded data if present
+(function(){
+  try{
+    const stored=JSON.parse(document.getElementById('stored-data').textContent||'[]');
+    if(stored.length){
+      rows=stored;
+      buildHead();buildFolders();
+      document.getElementById('tbl').style.display='';
+      document.getElementById('empty').style.display='none';
+      render();
+    }
+  }catch(e){}
+})();
+
+const COLS=[
+  ['product-name',     'Card',  true,  'name-col'],
+  ['price-in-pennies', 'Price', true,  ''],
+];
+const PC=['id','product-name','console-name','price-in-pennies','include-string','condition-string','sku','notes','cost-basis-in-pennies','quantity','date-entered','date-purchased','grading-company','grading-cert-id','folder'];
+
+// ── FILE ─────────────────────────────────────────────────────
+function onFile(e){const f=e.target.files[0];if(f)readF(f)}
+function readF(f){const r=new FileReader();r.onload=e=>load(e.target.result);r.readAsText(f)}
+function load(txt){
+  const lines=txt.trim().split(/\r?\n/);
+  if(lines.length<2)return;
+  const hdrs=csvSplit(lines[0]).map(h=>h.trim());
+  rows=[];
+  for(let i=1;i<lines.length;i++){
+    if(!lines[i].trim())continue;
+    const v=csvSplit(lines[i]);
+    const r={};hdrs.forEach((h,j)=>r[h]=(v[j]||'').trim());
+    r._t='sell';   // default: sell
+    r._done=false;
+    r._sel=false;
+    rows.push(r);
+  }
+  buildHead();
+  buildFolders();
+  document.getElementById('tbl').style.display='';
+  document.getElementById('empty').style.display='none';
+  render();
+}
+
+// ── HEADER ───────────────────────────────────────────────────
+function buildHead(){
+  document.getElementById('thead').innerHTML=
+    `<th onclick="sort('product-name')" id="th-name">Card</th>`+
+    `<th onclick="sort('price-in-pennies')" class="price-th" id="th-price">Price</th>`+
+    `<th class="chk ns">✓</th>`;
+}
+
+function buildFolders(){
+  const folders=[...new Set(rows.map(r=>r.folder||'').filter(Boolean))].sort();
+  const hasUnfiled=rows.some(r=>!r.folder||r.folder.trim()==='');
+  const sel=document.getElementById('folderSel');
+  sel.innerHTML='<option value="">All Folders</option>'+
+    (hasUnfiled?'<option value="__none__">— No Folder</option>':'')+
+    folders.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');
+}
+
+// ── SORT ─────────────────────────────────────────────────────
+function sort(k){
+  sortDir=sortCol===k?-sortDir:1;sortCol=k;
+  document.querySelectorAll('th[id]').forEach(t=>{
+    t.classList.remove('asc','desc');
+    if((k==='product-name'&&t.id==='th-name')||(k==='price-in-pennies'&&t.id==='th-price'))
+      t.classList.add(sortDir===1?'asc':'desc');
+  });
+  render();
+}
+function cmp(a,b,k){
+  let av=a[k]||'',bv=b[k]||'';
+  if(k==='price-in-pennies'||k==='cost-basis-in-pennies'||k==='quantity')
+    return(+av||0)-(+bv||0);
+  return av.localeCompare(bv,undefined,{sensitivity:'base'});
+}
+
+// ── FILTERS ──────────────────────────────────────────────────
+function setList(f,el){
+  listF=f;
+  document.querySelectorAll('.chip[data-f]').forEach(c=>c.className='chip');
+  el.className='chip on-'+f;
+  desel();render();
+}
+function visible(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const folder=document.getElementById('folderSel').value;
+  return rows.filter(r=>{
+    if(listF!=='all'&&r._t!==listF)return false;
+  if(folder==='__none__'&&(r.folder||'').trim()!=='')return false;
+    if(folder&&folder!=='__none__'&&r.folder!==folder)return false;
+    if(q)return`${r['product-name']}${r['console-name']}${r.folder||''}${r.notes||''}`.toLowerCase().includes(q);
+    return true;
+  });
+}
+
+// ── RENDER ───────────────────────────────────────────────────
+function render(){
+  // counts
+  ['wish','need','sell','coll'].forEach(t=>
+    document.getElementById('c'+t[0]).textContent=rows.filter(r=>r._t===t).length
+  );
+  document.getElementById('ca').textContent=rows.length;
+
+  let list=visible();
+  if(sortCol)list=[...list].sort((a,b)=>sortDir*cmp(a,b,sortCol));
+
+  // value
+  const val=list.reduce((s,r)=>s+(+r['price-in-pennies']||0),0)/100;
+
+  // bulk bar
+  const nsel=rows.filter(r=>r._sel).length;
+  const bb=document.getElementById('bbar');
+  bb.classList.toggle('on',nsel>0);
+  document.getElementById('bbarLabel').textContent=nsel>0?`${nsel} selected`:'0 selected';
+
+  // select-all header checkbox sync
+  const visIdx=list.map(r=>rows.indexOf(r));
+  const allSel=list.length>0&&list.every(r=>r._sel);
+
+  // footer
+  document.getElementById('footMeta').textContent=
+    rows.length?`${list.length}/${rows.length} cards · $${val.toFixed(2)}`:'No file loaded';
+
+  const tbody=document.getElementById('tbody');
+  if(!list.length){
+    tbody.innerHTML=`<tr><td colspan="${COLS.length+1}" style="text-align:center;padding:32px;color:var(--dim)">No cards match.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML=list.map(r=>{
+    const ri=rows.indexOf(r);
+    const cls=`data-row l-${r._t}${r._done?' done':''}${r._sel?' sel-on':''}`;
+    return`<tr class="${cls}" data-ri="${ri}">
+      ${COLS.map(([k,,, cn])=>cellHTML(r,k,cn)).join('')}
+      <td class="chk"><div class="box"></div></td>
+    </tr>`;
+  }).join('');
+}
+
+function cellHTML(r,k,cn){
+  const c=cn?` class="${cn}"`:'';
+  if(k==='price-in-pennies'){
+    const v=+r[k]||0;
+    return`<td class="price-col">${v?'<span class="dim-txt">$'+(v/100).toFixed(2)+'</span>':'—'}</td>`;
+  }
+  // product-name — show list badge + name
+  const bcls={wish:'bw',need:'bn',sell:'bs',coll:'bc'}[r._t]||'bs';
+  const blbl={wish:'★',need:'⚡',sell:'💠',coll:'📦'}[r._t]||'💠';
+  return`<td${c}><span class="badge ${bcls}">${blbl}</span> ${esc(r[k]||'')}</td>`;
+}
+
+// ── ROW INTERACTION ──────────────────────────────────────────
+// Tap row = select/deselect
+// Tap checkbox (right) = mark done → move wish/need to coll
+// Drag across rows = range select
+
+let dragging=false, dragSelState=true;
+
+const tbody=document.getElementById('tbody');
+
+tbody.addEventListener('pointerdown',e=>{
+  const tr=e.target.closest('tr[data-ri]');if(!tr)return;
+  const ri=+tr.dataset.ri;
+  const onChk=!!e.target.closest('.chk');
+  if(onChk){
+    e.stopPropagation();
+    const r=rows[ri];if(!r)return;
+    r._done=!r._done;
+    if(r._done&&(r._t==='wish'||r._t==='need'))r._t='coll';
+    render();
+    return;
+  }
+  // row tap: start drag-select
+  dragging=true;
+  dragSelState=!rows[ri]._sel; // set or clear based on first row touched
+  rows[ri]._sel=dragSelState;
+  lastSel=ri;
+  tbody.setPointerCapture(e.pointerId);
+  render();
+  e.preventDefault();
+});
+
+tbody.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  if(el?.closest('.chk'))return;
+  const tr=el?.closest('tr[data-ri]');if(!tr)return;
+  const ri=+tr.dataset.ri;
+  if(rows[ri]===undefined)return;
+  if(rows[ri]._sel===dragSelState)return; // already set
+  rows[ri]._sel=dragSelState;
+  render();
+});
+
+tbody.addEventListener('pointerup',()=>{ dragging=false; });
+tbody.addEventListener('pointercancel',()=>{ dragging=false; });
+
+// shift-click on row still works for keyboard users
+tbody.addEventListener('click',e=>{
+  if(!e.shiftKey)return;
+  const tr=e.target.closest('tr[data-ri]');if(!tr)return;
+  if(e.target.closest('.chk'))return;
+  const ri=+tr.dataset.ri;
+  if(lastSel===null){rows[ri]._sel=true;lastSel=ri;render();return;}
+  const vis=visible().map(x=>rows.indexOf(x));
+  const a=vis.indexOf(lastSel),b=vis.indexOf(ri);
+  if(a!==-1&&b!==-1){
+    const lo=Math.min(a,b),hi=Math.max(a,b);
+    vis.slice(lo,hi+1).forEach(i=>rows[i]._sel=dragSelState??true);
+  }
+  render();
+});
+
+// ── BULK ─────────────────────────────────────────────────────
+function bulkMove(t){rows.filter(r=>r._sel).forEach(r=>{r._t=t;r._sel=false});render()}
+function bulkDel(){
+  const n=rows.filter(r=>r._sel).length;
+  if(!n||!confirm(`Remove ${n} card${n>1?'s':''}?`))return;
+  rows=rows.filter(r=>!r._sel);
+  buildFolders();render();
+}
+function desel(){rows.forEach(r=>r._sel=false);lastSel=null;render()}
+
+// ── SAVE AS SELF-CONTAINED HTML ───────────────────────────────
+function saveHTML(){
+  if(!rows.length)return;
+  // Grab the current page source and replace the stored-data payload
+  const src=document.documentElement.outerHTML;
+  const json=JSON.stringify(rows.map(r=>{
+    // strip selection state before saving
+    const {_sel,...rest}=r;return rest;
+  }));
+  const updated=src.replace(
+    /<script id="stored-data"[^>]*>[\s\S]*?<\/script>/,
+    `<script id="stored-data" type="application/json">${json}<\/script>`
+  );
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([updated],{type:'text/html'}));
+  a.download='zekrom-cards.html';
+  a.click();
+}
+
+function exportCSV(){
+  if(!rows.length)return;
+  const q=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+  const out=[PC.join(','),...rows.map(r=>PC.map(h=>q(r[h]??'')).join(','))];
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([out.join('\r\n')],{type:'text/csv'}));
+  a.download=`zekrom-${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+
+// ── ADD CARD MODAL ───────────────────────────────────────────
+let addType='sell';
+
+function openAdd(){
+  addType='sell';
+  document.querySelectorAll('.type-opt').forEach(o=>{
+    o.className='type-opt'+(o.dataset.t==='sell'?' t-sell':'');
+  });
+  ['add-name','add-set','add-price','add-folder','add-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('add-qty').value=1;
+  document.getElementById('modalBg').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('add-name').focus(),100);
+}
+
+function closeAdd(e){
+  if(e&&e.target!==document.getElementById('modalBg'))return;
+  document.getElementById('modalBg').classList.add('hidden');
+}
+
+function pickAddType(t,el){
+  addType=t;
+  document.querySelectorAll('.type-opt').forEach(o=>o.className='type-opt');
+  el.className='type-opt t-'+t;
+}
+
+function saveAdd(){
+  const name=document.getElementById('add-name').value.trim();
+  if(!name)return;
+  const price=parseFloat(document.getElementById('add-price').value)||0;
+  const row={
+    id: String(Date.now()),
+    'product-name': name,
+    'console-name': document.getElementById('add-set').value.trim(),
+    'price-in-pennies': Math.round(price*100),
+    'include-string': 'Ungraded',
+    'condition-string': 'Normal wear',
+    sku:'', notes: document.getElementById('add-notes').value.trim(),
+    'cost-basis-in-pennies': 0,
+    quantity: parseInt(document.getElementById('add-qty').value)||1,
+    'date-entered': new Date().toISOString().slice(0,10),
+    'date-purchased':'','grading-company':'','grading-cert-id':'',
+    folder: document.getElementById('add-folder').value.trim(),
+    _t: addType, _done: false, _sel: false,
+  };
+  rows.push(row);
+  buildFolders();
+  document.getElementById('tbl').style.display='';
+  document.getElementById('empty').style.display='none';
+  document.getElementById('modalBg').classList.add('hidden');
+  render();
+}
+
+// ── DRAG DROP ────────────────────────────────────────────────
+document.addEventListener('dragover',e=>e.preventDefault());
+document.addEventListener('drop',e=>{
+  e.preventDefault();
+  const f=e.dataTransfer.files[0];
+  if(f&&(f.name.endsWith('.csv')||f.type==='text/csv'))readF(f);
+});
+
+// ── UTILS ────────────────────────────────────────────────────
+function esc(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):''}
+function csvSplit(line){
+  const res=[];let cur='',q=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'&&!q){q=true;continue}
+    if(c==='"'&&q){if(line[i+1]==='"'){cur+='"';i++}else q=false;continue}
+    if(c===','&&!q){res.push(cur);cur='';continue}
+    cur+=c;
+  }
+  res.push(cur);return res;
+}
+</script>
+</body>
+</html>
